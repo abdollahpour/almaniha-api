@@ -1,0 +1,62 @@
+openapi: 3.0.3
+info:
+  title: NPL API
+  version: 1.0.0
+tags:
+  - name: suggestion
+    description: Suggestion API
+paths:
+  /api/v1/suggestions/{search}:
+    get:
+      tags:
+        - suggestion
+      parameters:
+        - in: path
+          name: search
+          schema:
+            type: string
+          required: true
+          description: Term to search
+      responses:
+        200:
+          description: Invalid ID supplied
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Suggestions"
+components:
+  schemas:
+    Suggestions:
+      type: object
+      required:
+        - search
+        - data
+      properties:
+        search:
+          type: string
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Suggestion"
+    Suggestion:
+      type: object
+      required:
+        - type
+        - values
+        - matched
+        - filter
+      properties:
+        type:
+          type: string
+          enum:
+            - country
+            - city
+            - district
+        values:
+          type: array
+          items:
+            type: string
+        matched:
+          type: string
+        filter:
+          type: string
