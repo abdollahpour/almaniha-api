@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: NPL API
-  version: 1.0.0
+  version: "1"
 tags:
   - name: business
     description: server API
@@ -187,6 +187,83 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/PaginatedBusinesses"
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+  /api/v1/businesses/scrolled:
+    parameters:
+      - in: header
+        name: X-Correlation-Id
+        schema:
+          type: string
+          format: uuid
+        required: false
+      - in: header
+        name: Idempotency-Key
+        schema:
+          type: string
+          format: uuid
+        required: false
+      - in: query
+        name: skip
+        schema:
+          type: number
+          default: 0
+          minimum: 0
+        required: false
+      - in: query
+        name: limit
+        schema:
+          type: number
+          default: 20
+          minimum: 1
+          maximum: 100
+        required: false
+      - in: query
+        name: search
+        schema:
+          type: string
+        required: false
+      - in: query
+        name: country
+        schema:
+          type: string
+        required: false
+      - in: query
+        name: city
+        schema:
+          type: string
+        required: false
+      - in: query
+        name: district
+        schema:
+          type: string
+        required: false
+      - in: query
+        name: tags
+        schema:
+          type: array
+          items:
+            type: string
+        required: false
+      - in: query
+        name: author
+        schema:
+          type: string
+        required: false
+    get:
+      tags:
+        - business
+      responses:
+        201:
+          description: Get Business
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ScrolleddBusinesses"
         400:
           description: Bad request
           content:
