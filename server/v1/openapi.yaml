@@ -263,7 +263,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ScrolleddBusinesses"
+                $ref: "#/components/schemas/ScrolledBusinesses"
         400:
           description: Bad request
           content:
@@ -502,11 +502,14 @@ components:
       required:
         - skip
         - limit
+        - hasMore
       properties:
         skip:
           type: number
         limit:
           type: number
+        hasMore:
+          type: boolean
     BusinessFilter:
       type: object
       properties:
@@ -549,7 +552,7 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Business"
-    ScrolleddBusinesses:
+    ScrolledBusinesses:
       type: object
       required:
         - meta
