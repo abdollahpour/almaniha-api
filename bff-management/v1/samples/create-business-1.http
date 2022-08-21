@@ -1,0 +1,38 @@
+POST http://localhost:8080/api/v1/businesses HTTP/1.1
+content-type: application/json
+
+{
+    "title": "this is a title",
+    "description": "this is a descriptionq",
+    "contact": {
+        "email": "info@mail.com",
+        "phone": "+4911111111111",
+        "mobile": "+4922222222222",
+        "website": "http://mail.com"
+    },
+    "locations": [
+        {
+            "type": "office",
+            "country": "Deutschland",
+            "city": "Berlin",
+            "district": "Kaulsdorf",
+            "street": "A51",
+            "number": "110",
+            "postalCode": "12221",
+            "contact": {
+                "email": "office@mail.com",
+                "phone": "+493333333333",
+                "mobile": "+494444444444",
+                "website": "http://mail.com"
+            },
+            "geometry": {
+                "type": "point",
+                "coordinates": [53.2, 13.4]
+            }
+        }
+    ],
+    "images": [],
+    "tags": ["tag1", "tag2"],
+    "author": "Black knight",
+    "createdBy": "Hamed Abdollahpour"
+}

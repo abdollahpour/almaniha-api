@@ -1,0 +1,507 @@
+openapi: 3.0.3
+info:
+  title: BFF management API
+  version: "1"
+tags:
+  - name: business
+    description: business mangement API
+paths:
+  /api/v1/businesses:
+    parameters:
+      - in: header
+        name: X-Correlation-Id
+        schema:
+          type: string
+          format: uuid
+        required: false
+      - in: header
+        name: Idempotency-Key
+        schema:
+          type: string
+          format: uuid
+        required: false
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BusinessCreate"
+      tags:
+        - business
+      responses:
+        201:
+          description: Business created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Business"
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+    put:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BusinessUpdate"
+      tags:
+        - business
+      responses:
+        201:
+          description: Business created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Business"
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+  /api/v1/businesses/{businessId}:
+    parameters:
+      - in: path
+        name: businessId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: header
+        name: X-Correlation-Id
+        schema:
+          type: string
+          format: uuid
+        required: false
+      - in: header
+        name: Idempotency-Key
+        schema:
+          type: string
+          format: uuid
+        required: false
+    get:
+      tags:
+        - business
+      responses:
+        201:
+          description: Get Business
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Business"
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+    delete:
+      tags:
+        - business
+      responses:
+        201:
+          description: Delete Business
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Business"
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+  /api/v1/businesses/paginated:
+    parameters:
+      - in: header
+        name: X-Correlation-Id
+        schema:
+          type: string
+          format: uuid
+        required: false
+      - in: header
+        name: Idempotency-Key
+        schema:
+          type: string
+          format: uuid
+        required: false
+      - in: query
+        name: page
+        schema:
+          type: number
+          default: 1
+          minimum: 1
+        required: false
+      - in: query
+        name: size
+        schema:
+          type: number
+          default: 20
+          minimum: 1
+          maximum: 100
+        required: false
+      - in: query
+        name: search
+        schema:
+          type: string
+        required: false
+      - in: query
+        name: country
+        schema:
+          type: string
+        required: false
+      - in: query
+        name: city
+        schema:
+          type: string
+        required: false
+      - in: query
+        name: district
+        schema:
+          type: string
+        required: false
+      - in: query
+        name: tags
+        schema:
+          type: array
+          items:
+            type: string
+        required: false
+      - in: query
+        name: author
+        schema:
+          type: string
+        required: false
+    get:
+      tags:
+        - business
+      responses:
+        201:
+          description: Get Business
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaginatedBusinesses"
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HttpError"
+components:
+  schemas:
+    Business:
+      type: object
+      required:
+        - id
+        - title
+        - description
+        - contact
+        - locations
+        - images
+        - tags
+        - author
+        - createdBy
+        - createdAt
+        - idempotencyKey
+        - correlationId
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        description:
+          type: string
+        contact:
+          type: object
+          $ref: "#/components/schemas/Contact"
+        locations:
+          type: array
+          items:
+            type: object
+            $ref: "#/components/schemas/Location"
+        images:
+          type: array
+          items:
+            type: string
+        tags:
+          type: array
+          items:
+            type: string
+        author:
+          type: string
+        createdBy:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        idempotencyKey:
+          type: string
+        correlationId:
+          type: string
+          format: uuid
+    BusinessCreate:
+      type: object
+      required:
+        - title
+        - description
+        - contact
+        - locations
+        - images
+        - tags
+        - author
+        - createdBy
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        contact:
+          type: object
+          $ref: "#/components/schemas/Contact"
+        locations:
+          type: array
+          items:
+            type: object
+            $ref: "#/components/schemas/Location"
+        images:
+          type: array
+          items:
+            type: string
+        tags:
+          type: array
+          items:
+            type: string
+        author:
+          type: string
+        createdBy:
+          type: string
+    BusinessUpdate:
+      type: object
+      required:
+        - id
+        - title
+        - description
+        - contact
+        - locations
+        - images
+        - tags
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        description:
+          type: string
+        contact:
+          type: object
+          $ref: "#/components/schemas/Contact"
+        locations:
+          type: array
+          items:
+            type: object
+            $ref: "#/components/schemas/Location"
+        images:
+          type: array
+          items:
+            type: string
+        tags:
+          type: array
+          items:
+            type: string
+    Location:
+      type: object
+      required:
+        - type
+        - country
+        - city
+        - district
+        - street
+        - number
+        - postalCode
+        - contact
+        - geometry
+      properties:
+        type:
+          type: string
+          enum:
+            - office
+            - warehouse
+            - headquarter
+            - other
+        country:
+          type: string
+        city:
+          type: string
+        district:
+          type: string
+        street:
+          type: string
+        number:
+          type: string
+        postalCode:
+          type: string
+        contact:
+          type: object
+          $ref: "#/components/schemas/Contact"
+        geometry:
+          type: object
+          $ref: "#/components/schemas/Geometry"
+    Contact:
+      type: object
+      required:
+        - email
+        - phone
+        - mobile
+        - website
+      properties:
+        email:
+          type: string
+          format: email
+        phone:
+          type: string
+        mobile:
+          type: string
+        website:
+          type: string
+          format: uri
+    Geometry:
+      type: object
+      required:
+        - type
+        - coordinates
+      properties:
+        type:
+          type: string
+          enum:
+            - point
+        coordinates:
+          type: array
+          items:
+            type: number
+            format: double
+    PaginationMeta:
+      type: object
+      required:
+        - page
+        - size
+        - total
+        - totalPages
+        - hasPrev
+        - hasNext
+      properties:
+        page:
+          type: integer
+          format: int64
+        size:
+          type: integer
+          format: int64
+        total:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int64
+        hasPrev:
+          type: boolean
+        hasNext:
+          type: boolean
+    Sort:
+      type: object
+      properties:
+        field:
+          type: string
+        order:
+          type: string
+    ScrolledMeta:
+      type: object
+      required:
+        - skip
+        - limit
+        - hasMore
+      properties:
+        skip:
+          type: number
+        limit:
+          type: number
+        hasMore:
+          type: boolean
+    BusinessFilter:
+      type: object
+      properties:
+        search:
+          type: string
+        country:
+          type: string
+        city:
+          type: string
+        district:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        near:
+          type: string
+        within:
+          type: string
+        author:
+          type: string
+        before:
+          type: string
+          format: date-time
+        after:
+          type: string
+          format: date-time
+    PaginatedBusinesses:
+      type: object
+      required:
+        - meta
+        - filter
+        - data
+      properties:
+        meta:
+          $ref: "#/components/schemas/PaginationMeta"
+        filter:
+          $ref: "#/components/schemas/BusinessFilter"
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Business"
+    ScrolledBusinesses:
+      type: object
+      required:
+        - meta
+        - filter
+        - data
+      properties:
+        meta:
+          $ref: "#/components/schemas/ScrolledMeta"
+        filter:
+          $ref: "#/components/schemas/BusinessFilter"
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Business"
+    # https://jsonapi.org/format/#error-objects
+    HttpError:
+      type: object
+      required:
+        - id
+        - status
+        - title
+      properties:
+        id:
+          type: string
+          format: uuid
+        status:
+          type: string
+        title:
+          type: string
