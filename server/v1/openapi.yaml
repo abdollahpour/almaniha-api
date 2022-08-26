@@ -320,6 +320,7 @@ components:
           format: date-time
         idempotencyKey:
           type: string
+          format: uuid
         correlationId:
           type: string
           format: uuid
