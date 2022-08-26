@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: NPL API
+  title: Server API
   version: "1"
 tags:
   - name: business
@@ -258,7 +258,7 @@ paths:
       tags:
         - business
       responses:
-        201:
+        200:
           description: Get Business
           content:
             application/json:
@@ -270,6 +270,24 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HttpError"
+  /ready:
+    get:
+      tags:
+        - probes
+      responses:
+        200:
+          description: It's alive!
+        500:
+          description: Server has error
+  /live:
+    get:
+      tags:
+        - probes
+      responses:
+        200:
+          description: It's alive!
+        500:
+          description: Server has error
 components:
   schemas:
     Business:
