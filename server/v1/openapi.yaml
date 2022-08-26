@@ -290,7 +290,6 @@ components:
       properties:
         id:
           type: string
-          format: uuid
         title:
           type: string
         description:
