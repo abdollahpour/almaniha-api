@@ -70,7 +70,6 @@ paths:
         name: businessId
         schema:
           type: string
-          format: uuid
         required: true
       - in: header
         name: X-Correlation-Id
